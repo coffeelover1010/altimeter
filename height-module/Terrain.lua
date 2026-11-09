@@ -1,4 +1,6 @@
-AltimeterForever = {tiles = {}}
+AltimeterHeightData = {tiles = {}, apiVersion = 1}
+-- Compatibility name used by the build-70862 generated terrain packs.
+AltimeterForever = AltimeterHeightData
 local A = AltimeterForever
 local floor = math.floor
 local alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"

@@ -43,7 +43,7 @@ class WorldTests(unittest.TestCase):
     def test_every_generated_tile_against_local_geometry(self):
         manifest=json.loads((ROOT/'build-world/manifest.json').read_text())
         lua=LuaRuntime(unpack_returned_tuples=True)
-        lua.execute((ROOT/'addon/Terrain.lua').read_text())
+        lua.execute((ROOT/'height-module/Terrain.lua').read_text())
         lua.execute((ROOT/'build-world/AltimeterForever/Database.lua').read_text())
         a=lua.globals().AltimeterForever
         rng=random.Random(70862);wet=0;maxerror=0
@@ -109,7 +109,7 @@ class WorldTests(unittest.TestCase):
           C_Map={GetBestMapForUnit=function()return 1439 end}
           function UnitPosition()return 6000,1000,0,1 end
         ''')
-        lua.execute((ROOT/'addon/Terrain.lua').read_text())
+        lua.execute((ROOT/'height-module/Terrain.lua').read_text())
         lua.execute((ROOT/'addon/Gauge.lua').read_text())
         lua.execute('''
           AltimeterForever.build='70862';AltimeterForever.version='1.60.1.70862'

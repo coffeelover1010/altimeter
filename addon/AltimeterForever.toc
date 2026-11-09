@@ -4,8 +4,6 @@
 ## Author: Videocat
 ## Version: 0.2.0
 ## SavedVariables: AltimeterForeverDB
-Terrain.lua
-Database.lua
-Reference.lua
+## Dependencies: AltimeterHeightData
 Gauge.lua
 Core.lua

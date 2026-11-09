@@ -19,7 +19,7 @@ from calibrate import ocean_name, ocean_layers
 
 def lua_setup():
     lua = LuaRuntime(unpack_returned_tuples=True)
-    lua.execute((ROOT / 'addon/Terrain.lua').read_text())
+    lua.execute((ROOT / 'height-module/Terrain.lua').read_text())
     lua.execute((ROOT / 'build/AltimeterForever/Database.lua').read_text())
     return lua
 

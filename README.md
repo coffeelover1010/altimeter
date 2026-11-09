@@ -30,7 +30,7 @@ The panel automatically hides in the six original capital cities and their child
 
 The updated addon is installed in `_forever_/Interface/AddOns`. **Fully restart WoW** to discover the new world data packs. Enable Altimeter and its data packs. For manual installation, copy all addon directories from the release ZIP into that directory. Remove obsolete `AltimeterForever_T0_*` pilot modules when upgrading; do not mix databases from different builds.
 
-The package has one main addon and 351 load-on-demand packs, each covering up to 4x4 tiles. Data is approximately 570 MB on disk. Only visited packs load; they stay in memory until reload/logout. The world index uses at most nine candidate tile lookups per update rather than scanning thousands of entries. New packs wait until combat ends before loading. Python, internet and external executables are not needed while playing.
+The package has one display addon, one independent height-data module and 351 load-on-demand packs, each covering up to 4x4 tiles. Data is approximately 570 MB on disk. Only visited packs load; they stay in memory until reload/logout. The world index uses at most nine candidate tile lookups per update rather than scanning thousands of entries. New packs wait until combat ends before loading. Python, internet and external executables are not needed while playing.
 
 Choose Small, Medium or Large in **Options > AddOns > Altimeter**. The same panel contains visibility, position reset, help and advanced settings. Size, position and visibility are saved. Drag the instrument to move it; the flat cross hides it. Hover to see the toggle hint.
 
@@ -71,3 +71,15 @@ python tests/test_world.py
 The original pilot suite uses `build` and its retained fixtures. The expanded suite uses `build-world`, local-data and the inspected DB2 fixtures. Synthetic geometry exists only in tests, never the shipped database.
 
 On 9 November 2026, the tester confirmed the addon was tested in-game and ready for release. This is user-reported acceptance, not exhaustive verification of every map or terrain coordinate. See `VALIDATION.md` and `RESEARCH.md` for offline validation and coverage limits.
+
+## Components and rights
+
+`addon/` contains the Altimeter display addon (All Rights Reserved; see LICENSE).
+`height-module/` contains the independent Altimeter Height Data API and its
+limited permission for use, modification and redistribution in other WoW addons.
+Generated index/terrain/water packs belong to that module distribution. Third-party
+rights are not granted by these licenses. See height-module/README.md for its API.
+
+The full ZIP includes both components. Altimeter-addon is display-only and requires
+Altimeter-HeightData. Other addon authors can use Altimeter-HeightData on its own.
+A full client restart is required when upgrading to discover the new module.
