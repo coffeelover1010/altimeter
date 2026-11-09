@@ -1,0 +1,13 @@
+local-data/
+build*/
+dist/
+__pycache__/
+research/*.bin
+research/*.adt
+research/*.wdt
+research/*.db2
+research/*.html
+research/*.js
+
+research/
+output/

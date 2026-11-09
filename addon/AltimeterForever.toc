@@ -1,0 +1,11 @@
+## Interface: 16001
+## Title: Altimeter
+## Notes: Actual Forever ADT terrain elevation. Not player, object or floor height.
+## Author: Videocat
+## Version: 0.2.0
+## SavedVariables: AltimeterForeverDB
+Terrain.lua
+Database.lua
+Reference.lua
+Gauge.lua
+Core.lua
