@@ -8,7 +8,7 @@ from lupa.lua51 import LuaRuntime
 
 class ModuleTests(unittest.TestCase):
     def test_standalone_sample_and_dependency_graph(self):
-        build=ROOT/'build-world'
+        build=ROOT/'build-package'
         lua=LuaRuntime(unpack_returned_tuples=True)
         loaded=set()
         def load(name):
@@ -36,7 +36,7 @@ class ModuleTests(unittest.TestCase):
         self.assertIsNone(lua.globals().AltimeterForeverFrame)
         self.assertGreater(len(loaded),1)
         self.assertIn('## Dependencies: AltimeterHeightData',(build/'AltimeterForever/AltimeterForever.toc').read_text())
-        for toc in build.glob('AltimeterForever_W*/*.toc'):
+        for toc in build.glob('AltimeterData_*/*.toc'):
             self.assertIn('## Dependencies: AltimeterHeightData',toc.read_text())
 
 if __name__=='__main__':unittest.main(verbosity=2)

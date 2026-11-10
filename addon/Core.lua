@@ -7,6 +7,7 @@ frame:EnableMouse(true)
 frame:RegisterForDrag("LeftButton")
 local gauge = A.CreateGauge(frame)
 local db, ticker, last
+local survey, dragging
 local function say(s) print("Altimeter: " .. s) end
 local function safe(v) return A.Number(v) and v or nil end
 
@@ -79,6 +80,7 @@ local function update()
         end
         local _, build = GetBuildInfo()
         if tostring(build) ~= A.build then reason = "client build differs from terrain data" end
+        if not reason and survey then reason = survey:Target(r) end
         if not reason then
             r.height, reason, r.tile, r.chunkX, r.chunkY, r.area, r.water, r.waterReason = A.Sample(r.north, r.west, r.map)
         end
@@ -90,15 +92,19 @@ local function update()
             local custom=db.customDatum or db.datum~=0
             local datum=custom and db.datum or (sea or 0)
             r.reference=datum
+            if survey then survey:Render(r,datum) end
             -- Ocean presence is checked per terrain cell against its existence
             -- mask. Being below world zero alone never enables depth mode.
             r.depth=r.water and r.water>r.height and (r.water-r.height) or nil
             gauge:SetReading(r.depth or (r.height-datum),r.source~="UnitPosition",not custom and sea~=nil,r.depth~=nil,custom)
+            if gauge.SetSurvey then gauge:SetSurvey(r.remote) end
         else
+            if survey then survey:Render(r,0) end
             gauge:SetUnavailable(reason == "client build differs from terrain data" and "Data update needed" or "No terrain data")
         end
     end)
     if not ok then
+        if survey then survey:Close() end
         last = {reason="API/terrain error", error=tostring(err)}
         gauge:SetUnavailable("Position unavailable")
     end
@@ -164,7 +170,7 @@ local function registerSettings()
         db.datum=0;db.customDatum=false;update()
     end)
     label("Help",-196,"GameFontNormal")
-    label("Use /alt to toggle the gauge, or click its cross to hide it. Drag to move. Size, position and visibility are remembered. The gauge hides automatically in capital cities.",-220)
+    label("Click the gauge to sample ahead; drag to move. /alt toggles visibility. The sampling panel adds a temporary minimap grid and optional contours. The gauge hides in capital cities.",-220)
     label("On land, ALTIMETER shows natural ground elevation in metres. Over mapped ocean, DEPTH shows water surface to seabed distance, not your character's diving depth.",-275)
     label("Each dial number is 100 metres; a full turn is 1,000 metres. The numeric reading gives the full value. ~ means estimated position. Buildings and cave floors are excluded. Unsupported areas show no data.",-330)
     label("Advanced settings",-400,"GameFontNormal")
@@ -173,7 +179,7 @@ local function registerSettings()
         edit:SetSize(100,24);edit:SetPoint("TOPLEFT",x,y);edit:SetAutoFocus(false)
         return edit
     end
-    label("Update interval (0.1–5 seconds)",-426)
+    label("Update interval (0.1-5 seconds)",-426)
     local rate=entry(260,-420)
     rate:SetText(tostring(db.interval))
     button("Apply interval",380,-420,function()
@@ -203,7 +209,11 @@ local function start()
     update()
 end
 
-frame:SetScript("OnDragStart", function(self) self:StartMoving() end)
+frame:SetScript("OnMouseDown", function() dragging=false end)
+frame:SetScript("OnMouseUp", function(_,button)
+    if button=="LeftButton" and not dragging and survey then survey:Toggle() end
+end)
+frame:SetScript("OnDragStart", function(self) dragging=true;self:StartMoving() end)
 frame:SetScript("OnDragStop", function(self)
     self:StopMovingOrSizing()
     if not db then return end
@@ -223,6 +233,7 @@ frame:SetScript("OnEvent", function()
         pcall(function() frame:ClearAllPoints(); frame:SetPoint(db.position[1], UIParent, db.position[2], db.position[3], db.position[4]) end)
     end
     registerSettings()
+    if A.CreateSurvey and not survey then survey=A.CreateSurvey(frame,update) end
     start()
 end)
 
@@ -261,11 +272,12 @@ SlashCmdList.ALTIMETERFOREVER = function(msg)
             say("Sample saved. /reload or logout flushes it to SavedVariables.")
         end
     elseif command == "show" then A.SetVisible(true)
+    elseif command == "survey" and survey then survey:Toggle()
     elseif command == "hide" then A.SetVisible(false)
     elseif command == "reset" then
         frame:ClearAllPoints(); frame:SetPoint("CENTER", 0, 180); db.position = nil; A.SetVisible(true)
     else
-        say("/altitude rate <seconds>; debug; sample <note>; datum <world Z|reset>; show; hide; reset")
+        say("/altitude survey; rate <seconds>; debug; sample <note>; datum <world Z|reset>; show; hide; reset")
         say("Automatically hidden in capital cities; elsewhere reads terrain ground, never player Z or object floors.")
         say("Over mapped ocean: seabed depth, not diving depth. Sea references are per map; unsupported areas show no data.")
     end

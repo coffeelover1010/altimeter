@@ -2,7 +2,7 @@
 
 Independent, UI-free terrain sampling module for WoW addons. It does not
 require the Altimeter gauge. Install AltimeterHeightData and the included
-AltimeterForever_W* load-on-demand packs. Add `## Dependencies: AltimeterHeightData`
+AltimeterData_* load-on-demand packs. Add `## Dependencies: AltimeterHeightData`
 to your addon's TOC. Do not rename the generated packs: the index references them.
 
 ```lua

@@ -150,7 +150,14 @@ class TerrainTests(unittest.TestCase):
           function methods:CreateLine() return setmetatable({},{__index=methods}) end
           function methods:CreateTexture() return setmetatable({},{__index=methods}) end
           setmetatable(methods,{__index=function() return function() end end})
-          function CreateFrame() local f=setmetatable({},{__index=methods}); testFrame=f;return f end
+          function CreateFrame(kind,name,parent,template)
+            local f=setmetatable({},{__index=methods})
+            if name=='AltimeterForeverFrame' then testFrame=f end
+            if template=='InterfaceOptionsCheckButtonTemplate' then
+                f.Text=setmetatable({},{__index=methods})
+            end
+            return f
+          end
           function GetBuildInfo() return "1.60.1",build end
           function print(s) table.insert(messages,s) end
           function time() return 123 end

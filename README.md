@@ -1,6 +1,20 @@
-# Altimeter 0.2.0
+# Altimeter 0.3.0-test
 
 An aircraft-style ground altimeter and automatic **seabed depth gauge**, displaying metres. Data comes from the installed Forever **1.60.1.70862 / wowf** client, not Era or public map height images.
+
+## Gallery
+
+### Ground altitude
+
+![Altimeter showing a ground elevation of +7.5 metres](assets/gallery/ground-altitude.png)
+
+The aircraft-style dial displays natural terrain elevation in metres.
+
+### Seabed depth
+
+![Altimeter in depth mode showing a seabed depth of 7.1 metres](assets/gallery/seabed-depth.png)
+
+Over mapped ocean water, the instrument automatically switches to a blue seabed-depth reading—even when standing on a bridge above the water.
 
 ## What the instrument measures
 
@@ -28,17 +42,43 @@ The panel automatically hides in the six original capital cities and their child
 
 ## Install and use
 
-The updated addon is installed in `_forever_/Interface/AddOns`. **Fully restart WoW** to discover the new world data packs. Enable Altimeter and its data packs. For manual installation, copy all addon directories from the release ZIP into that directory. Remove obsolete `AltimeterForever_T0_*` pilot modules when upgrading; do not mix databases from different builds.
+The AddOns list collects the gauge and height library in a collapsible **Altimeter** category. Terrain packs are grouped beneath **Altimeter Height Data**, as six regional modules. Collapse the category using its arrow to hide the full list. The separate packs preserve on-demand loading and the library can still be installed without the gauge.
 
-The package has one display addon, one independent height-data module and 351 load-on-demand packs, each covering up to 4x4 tiles. Data is approximately 570 MB on disk. Only visited packs load; they stay in memory until reload/logout. The world index uses at most nine candidate tile lookups per update rather than scanning thousands of entries. New packs wait until combat ends before loading. Python, internet and external executables are not needed while playing.
+The updated addon is installed in `_forever_/Interface/AddOns`. **Fully restart WoW** to discover the new world data packs. Enable Altimeter and its data packs. For manual installation, copy all addon directories from the release ZIP into that directory. Remove obsolete `AltimeterForever_W*` and `AltimeterForever_T0_*` folders when upgrading; do not mix databases from different builds.
+
+The package has one display addon, one independent height-data module and six load-on-demand regions: Eastern Kingdoms North/South, Kalimdor North/South, Other World Maps, and Dungeons/Raids/Battlegrounds (eight addon entries total). Data is approximately 570 MB on disk. Only visited regions load; each loads more data at once than the old tile packs, so first entry can pause and use more memory. Loaded regions they stay in memory until reload/logout. The world index uses at most nine candidate tile lookups per update rather than scanning thousands of entries. New packs wait until combat ends before loading. Python, internet and external executables are not needed while playing.
 
 Choose Small, Medium or Large in **Options > AddOns > Altimeter**. The same panel contains visibility, position reset, help and advanced settings. Size, position and visibility are saved. Drag the instrument to move it; the flat cross hides it. Hover to see the toggle hint.
+
+### Sample ahead (test build)
+
+Click the gauge to open direction (-180 to +180 degrees, positive to your right)
+and horizontal distance (0-200 metres) sliders. Zero degrees follows your
+character's facing, not the camera. While open, the gauge reads the selected
+point and says REMOTE TERRAIN; the controls show its height difference from
+the terrain beneath you. Closing the controls restores the local reading.
+Dragging the gauge still moves it without opening the controls.
+
+A temporary minimap overlay shows a cyan sample cross and connecting line,
+with a 10-metre distance grid (50 metres when zoomed out too far for clear
+10-metre spacing). A point outside the minimap is labelled rather than given
+a misleading edge cross. The grid respects minimap rotation and zoom.
+
+Optional gold contours show 10-metre elevation intervals, with stronger lines
+every 50 metres, relative to the gauge's altitude reference. These are an
+approximation from a 17-by-17 terrain sample mesh, refreshed every two seconds
+or after a substantial move, with a 600-segment limit. Small terrain features
+can be missed. Contours describe the terrain, including seabed, not water
+surfaces or buildings. They are off by default. Closing/hiding the panel hides
+the overlay and stops contour sampling. A first sample in another unloaded
+region can pause while its terrain pack loads; new packs still wait in combat.
 
 Commands:
 
 | Command | Effect |
 | --- | --- |
 | `/alt` or `/altitude` | Toggle visibility |
+| `/altitude survey` | Open/close the terrain sampling controls |
 | `/altitude rate 0.25` | Update every 0.25 seconds; allowed 0.1–5 |
 | `/altitude debug` | Position, map, terrain, water surface, depth and failure diagnostics in yards |
 | `/altitude sample note` | Save a labelled diagnostic observation, retaining the last 200 |

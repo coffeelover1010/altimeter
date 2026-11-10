@@ -54,7 +54,7 @@ function A.CreateGauge(frame)
     local value = text(21,0,-111,.79,.94,.78)
     local caption = text(10,0,-131,.66,.71,.67)
     local hint = text(10,0,-131,.66,.71,.67)
-    hint:SetText("Use /alt to toggle")
+    hint:SetText("Click to sample ahead; drag to move")
     hint:Hide()
     local close = CreateFrame("Button",nil,frame)
     close:SetSize(20,20)
@@ -81,6 +81,9 @@ function A.CreateGauge(frame)
     close:SetScript("OnEnter",function() hover(true);crossColor(.96,.94,.77) end)
     close:SetScript("OnLeave",function() hover(false);crossColor(.66,.71,.67) end)
     local gauge = {}
+    function gauge:SetSurvey(active)
+        if active then surface:SetText("REMOTE TERRAIN") end
+    end
     function gauge:SetReading(height, estimated, seaReference, depthMode, customReference)
         height = height * .9144 -- WoW yards to metres; source/calibration stay in yards.
         title:SetText(depthMode and "DEPTH" or "ALTIMETER")

@@ -1,9 +1,13 @@
 ## Interface: 16001
 ## Title: Altimeter
+## Category: Altimeter
+## Group: AltimeterForever
+## IconTexture: Interface\Icons\INV_Misc_Spyglass_03
 ## Notes: Actual Forever ADT terrain elevation. Not player, object or floor height.
 ## Author: Videocat
-## Version: 0.2.0
+## Version: 0.3.0-test
 ## SavedVariables: AltimeterForeverDB
 ## Dependencies: AltimeterHeightData
 Gauge.lua
+Survey.lua
 Core.lua
