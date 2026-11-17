@@ -8,6 +8,7 @@ frame:RegisterForDrag("LeftButton")
 local gauge = A.CreateGauge(frame)
 local db, ticker, last
 local survey, dragging
+local warnedBuildMismatch = false
 local function say(s) print("Altimeter: " .. s) end
 local function safe(v) return A.Number(v) and v or nil end
 
@@ -64,6 +65,11 @@ end
 
 local function update()
     local ok, err = pcall(function()
+        local _, build = GetBuildInfo()
+        if tostring(build) ~= A.build and not warnedBuildMismatch then
+            warnedBuildMismatch = true
+            say("Terrain data not yet verified for this WoW patch; readings may be outdated.")
+        end
         local uiMap = C_Map.GetBestMapForUnit("player")
         local city = A.CityMap(uiMap)
         if city then
@@ -78,8 +84,6 @@ local function update()
         if r.map == 2980 or r.map == 2959 then
             r.reason="disabled in city"; gauge:SetUnavailable("Hidden in cities"); frame:Hide(); return
         end
-        local _, build = GetBuildInfo()
-        if tostring(build) ~= A.build then reason = "client build differs from terrain data" end
         if not reason and survey then reason = survey:Target(r) end
         if not reason then
             r.height, reason, r.tile, r.chunkX, r.chunkY, r.area, r.water, r.waterReason = A.Sample(r.north, r.west, r.map)
@@ -100,7 +104,7 @@ local function update()
             if gauge.SetSurvey then gauge:SetSurvey(r.remote) end
         else
             if survey then survey:Render(r,0) end
-            gauge:SetUnavailable(reason == "client build differs from terrain data" and "Data update needed" or "No terrain data")
+            gauge:SetUnavailable("No terrain data")
         end
     end)
     if not ok then

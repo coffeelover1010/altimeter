@@ -150,6 +150,10 @@ def main():
     for p in (Path(__file__).resolve().parents[1]/'addon').iterdir():
         if p.is_file():shutil.copy2(p,main/p.name)
     (args.output/'manifest.json').write_text(json.dumps(manifest,indent=2))
+    coverage=dict(version=version,maps=manifest['maps'],
+                  unreadMapRecords=sum(s['records'] for s in report['unreadSections']),
+                  tileFailures=manifest['failures'])
+    (args.output/'coverage.json').write_text(json.dumps(coverage,indent=2))
     print(f'COMPLETE: {len(manifest["tiles"])} tiles, {len(packs)} packs, {len(manifest["failures"])} tile failures',flush=True)
 
 

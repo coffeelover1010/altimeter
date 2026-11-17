@@ -1,6 +1,6 @@
-# Altimeter 0.3.0-test
+# Altimeter 0.3.1
 
-An aircraft-style ground altimeter and automatic **seabed depth gauge**, displaying metres. Data comes from the installed Forever **1.60.1.70862 / wowf** client, not Era or public map height images.
+An aircraft-style ground altimeter and automatic **seabed depth gauge**, displaying metres. Data comes from the installed Forever **1.60.1.70938 / wowf** client, not Era or public map height images.
 
 ## Gallery
 
@@ -50,7 +50,7 @@ The package has one display addon, one independent height-data module and six lo
 
 Choose Small, Medium or Large in **Options > AddOns > Altimeter**. The same panel contains visibility, position reset, help and advanced settings. Size, position and visibility are saved. Drag the instrument to move it; the flat cross hides it. Hover to see the toggle hint.
 
-### Sample ahead (test build)
+### Sample ahead
 
 Click the gauge to open direction (-180 to +180 degrees, positive to your right)
 and horizontal distance (0-200 metres) sliders. Zero degrees follows your
@@ -87,7 +87,7 @@ Commands:
 | `/altitude show` / `hide` | Control visibility; city hiding still applies |
 | `/altitude reset` | Restore panel position and visibility |
 
-`/reload` or logout saves samples to the account's `SavedVariables/AltimeterForever.lua`. Never edit that file while WoW is running. A client build mismatch disables measurements until the dataset is regenerated.
+`/reload` or logout saves samples to the account's `SavedVariables/AltimeterForever.lua`. Never edit that file while WoW is running. A client build mismatch prints one short warning per login/reload. Readings continue using the bundled terrain data, which may be outdated for changed areas.
 
 ## Regenerate and validate
 

@@ -16,7 +16,7 @@ Over mapped ocean water, the instrument switches to a seabed depth gauge.
 Altimeter measures natural terrain and the depth of the seabed, not your
 character's altitude or diving depth. Buildings, bridges and cave floors are
 not represented. Unsupported areas show no reading; capital cities hide the dial.
-The supplied dataset targets Forever build 1.60.1.70862.
+The supplied dataset targets Forever build 1.60.1.70938.
 
 ## For addon authors
 
@@ -30,3 +30,5 @@ third-party game data remain with their respective owners.
 
 All Rights Reserved. Include both license files in the distribution; the module's
 explicit WoW-addon reuse permission is recorded in its own LICENSE.
+
+New WoW patches show one brief chat warning per login/reload while readings continue.

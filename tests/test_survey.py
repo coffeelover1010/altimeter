@@ -70,7 +70,8 @@ function UnitPosition() return 1000,2000,0,mapID end
 C_Map={GetBestMapForUnit=function() return uiMap end}
 C_Minimap={GetViewRadius=function() return radius end}
 C_Timer={NewTicker=function(_,cb) tick=cb;return {Cancel=function()end} end}
-function print() end
+messages={}
+function print(message) messages[#messages+1]=message end
 '''
 
 
@@ -149,8 +150,12 @@ class SurveyTests(unittest.TestCase):
         self.assertTrue(self.g.overlay.shown)
         calls=self.g.sampleCalls
         self.lua.execute("build='different';tick()")
-        self.assertEqual(self.g.sampleCalls,calls)
-        self.assertFalse(self.g.overlay.shown)
+        self.assertGreater(self.g.sampleCalls,calls)
+        self.assertTrue(self.g.overlay.shown)
+        self.assertEqual(len(self.g.messages),1)
+        self.assertIn("not yet verified",self.g.messages[1])
+        self.lua.execute("tick();tick()")
+        self.assertEqual(len(self.g.messages),1)
         self.lua.execute("build='70862';tick();uiMap=1453;tick()")
         self.assertFalse(self.g.overlay.shown)
         self.lua.execute("uiMap=1439;tick();SlashCmdList.ALTIMETERFOREVER('hide')")

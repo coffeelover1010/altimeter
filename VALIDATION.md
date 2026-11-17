@@ -51,7 +51,7 @@ Additional tests cover a centre-vertex spike that bilinear interpolation cannot 
 | Jump/fall/swim | Player Z must not replace terrain; horizontal motion may legitimately change terrain |
 | Instance/other continent | Unavailable, without stale values |
 | New tile in combat | If not previously loaded: unavailable, then recovers after combat |
-| Client update | Build mismatch blocks readings |
+| Client update | One brief warning per login/reload; readings and survey continue |
 | Restart/reload | Movable panel position/rate/datum persist; sample records remain readable |
 
 Sea calibration uses 701 actual ocean layers (56,781 height vertices) from three harbour tiles. All inspected water heights and layer min/max fields are zero. This verifies the **static regional reference**, not universal sea-level consistency across uninspected maps.
@@ -59,3 +59,7 @@ Sea calibration uses 701 actual ocean layers (56,781 height vertices) from three
 ## Expansion gate
 
 After the pilot passes, use WDT/Map metadata from the same Forever build to select Eastern Kingdoms and Kalimdor, then inspect Forever-specific map definitions. `terrain.py --bounds xmin ymin xmax ymax --wdt-id ID --map-id ID` can generate a selected map, but this pilot runtime supports **one map manifest at a time**. Multi-continent indexing and installation must be implemented and tested before combining datasets. No claim of complete world coverage is made. Do not reuse Classic/Era geometry: 27 of the 40 pilot tiles differ from installed Era.
+
+## 0.3.1 validation — 17 November 2026
+
+Rebuilt from installed Forever 1.60.1.70938, build key 3627b099867bfde3e37a17cf44f69cdc. All 3,322 tiles across 48 maps extracted without tile failures. All tile hashes and geometry checks passed, including 3,952 water samples. All 18 offline tests passed, including continued sampling on mismatched builds and warning deduplication. Live-client verification remains pending; encrypted records and unsupported interiors remain excluded.

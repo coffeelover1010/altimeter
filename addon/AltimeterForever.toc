@@ -5,7 +5,7 @@
 ## IconTexture: Interface\Icons\INV_Misc_Spyglass_03
 ## Notes: Actual Forever ADT terrain elevation. Not player, object or floor height.
 ## Author: Videocat
-## Version: 0.3.0-test
+## Version: 0.3.1
 ## SavedVariables: AltimeterForeverDB
 ## Dependencies: AltimeterHeightData
 Gauge.lua

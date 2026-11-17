@@ -47,7 +47,8 @@ for folder in folders:
 release=root/'dist'
 release.mkdir(exist_ok=True)
 files=[]
-target=release/f'Altimeter-{version}-70862.zip'
+client_build=json.loads((build/'manifest.json').read_text())['version'].split('.')[-1]
+target=release/f'Altimeter-{version}-{client_build}.zip'
 with zipfile.ZipFile(target,'w',zipfile.ZIP_DEFLATED,compresslevel=9) as z:
     for p in entries:
         name=p.relative_to(build).as_posix()
@@ -66,7 +67,7 @@ print(f'{target}: {target.stat().st_size:,} bytes, {len(folders)} addon folders;
 # Separate distributions let other authors use the height module without the UI.
 for label,selected in [('Altimeter-addon',[p for p in entries if p.parent==main]),
                        ('Altimeter-HeightData',[p for p in entries if p.parent!=main])]:
-    archive=release/(label+f'-{version}-70862.zip')
+    archive=release/(label+f'-{version}-{client_build}.zip')
     with zipfile.ZipFile(archive,'w',zipfile.ZIP_DEFLATED,compresslevel=6) as z:
         for p in selected:z.write(p,p.relative_to(build).as_posix())
     validate_archive(archive)
